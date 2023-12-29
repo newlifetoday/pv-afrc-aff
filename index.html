@@ -57,7 +57,7 @@ src="https://www.facebook.com/tr?id=1568519303903669&ev=ViewContent&noscript=1"
 	//parametro BackRedirect
 	const urlParamback = new URLSearchParams(window.location.search);
     var idparamback = urlParamback.get('subid');
-	var urlBackRedirect = 'https://goboostaro.com/video/int/bg?aff_id=257851'; // lembre-se de usar a url sem espaços
+	var urlBackRedirect = 'https://goboostaro.com/video/int/bg?aff_id=257851&subid2=BRedir'; // lembre-se de usar a url sem espaços
 	var urlBack = urlBackRedirect + (urlBackRedirect.includes('?') ? '&' : '?') + 'subid=BR-' + idparamback;
 	
     // não altere nada abaixo dessa linha
