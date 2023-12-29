@@ -26,14 +26,18 @@
 <!-- Script para marcar o evento InitiateCheckout -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var checkoutButton = document.getElementById('btnIC');
+    var buttons = document.querySelectorAll('.btn-cart'); // Selecione todos os botões com a classe 'btn-cart'
 
-    if (checkoutButton) {
-      checkoutButton.addEventListener('click', function() {
-        // Adicione o código do evento "InitiateCheckout" aqui
-        fbq('track', 'InitiateCheckout');
+    buttons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var buttonText = button.innerText.trim().toUpperCase(); // Obtenha e normalize o texto do botão
+
+        // Se o texto do botão for "ADD TO CART", acione o evento "InitiateCheckout"
+        if (buttonText === 'ADD TO CART') {
+          fbq('track', 'InitiateCheckout');
+        }
       });
-    }
+    });
   });
 </script>
 <!-- End Meta Pixel Code -->
