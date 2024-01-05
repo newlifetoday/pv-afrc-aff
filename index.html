@@ -89,27 +89,6 @@
 
 
 
-<script>
-
-	//parametro BackRedirect
-	const urlParamback = new URLSearchParams(window.location.search);
-    var idparamback = urlParamback.get('subid');
-	var urlBackRedirect = 'https://goboostaro.com/video/int/bg?aff_id=257851&subid2=BRedir'; // lembre-se de usar a url sem espaços
-	var urlBack = urlBackRedirect + (urlBackRedirect.includes('?') ? '&' : '?') + 'subid=BR-' + idparamback;
-	
-    // não altere nada abaixo dessa linha
-    urlBackRedirect = urlBackRedirect = urlBackRedirect.trim() +
-            (urlBackRedirect.indexOf("?") > 0 ? '&' : '?') +
-            document.location.search.replace('?', '').toString();
-    history.pushState({}, "", location.href);
-    history.pushState({}, "", location.href);
-    window.onpopstate = function () {
-        setTimeout(function () {
-            location.href = urlBackRedirect;
-        }, 1);
-    };
-	
-</script>
 
 
 </head>
