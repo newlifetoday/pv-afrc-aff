@@ -2,9 +2,8 @@
 <html lang="pt-br">
 
 <head>
-    
-
-<!-- Google tag (gtag.js) -->
+	
+   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11308860145"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -57,38 +56,220 @@
     });
   });
 </script>
-<!-- End Meta Pixel Code -->
+<!-- End Meta Pixel Code --> 
 
-    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="Description" content="BOOST A R O" />
+    <meta name="Description" content="Ancient Method" />
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="icon" type="image/png" sizes="1080x1080" href="#" />
-    <title>B.O.O.S.T.A.R.O.</title>
+    <title>Ancient Method</title>
     
-    <!-- vturb turbo -->
-<link rel="preload" href="https://scripts.converteai.net/4cd96820-ee82-4b10-afa1-99a2cb36e9d9/players/658bb6458df3be000950fe85/player.js" as="script">
+     <link rel="preload" href="https://scripts.converteai.net/23001640-550a-4032-a4f9-32c5730b26e8/ab-test/6598d4c2c1c15b000931434a/player.js" as="script">
 <link rel="preload" href="https://cdn.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
-<link rel="preload" href="https://images.converteai.net/4cd96820-ee82-4b10-afa1-99a2cb36e9d9/players/658bb6458df3be000950fe85/thumbnail.jpg" as="image">
-<link rel="preload" href="https://cdn.converteai.net/4cd96820-ee82-4b10-afa1-99a2cb36e9d9/658bb5868df3be000950fe83/main.m3u8" as="fetch">
+<link rel="preload" href="https://images.converteai.net/23001640-550a-4032-a4f9-32c5730b26e8/players/6598d4c2c1c15b000931434a/thumbnail.jpg" as="image">
+
 <link rel="dns-prefetch" href="https://cdn.converteai.net">
 <link rel="dns-prefetch" href="https://scripts.converteai.net">
 <link rel="dns-prefetch" href="https://images.converteai.net">
 <link rel="dns-prefetch" href="https://api.vturb.com.br">
 
-<script>var mysrc = "https://tracking.buygoods.com/track/?a=7532&firstcookie=0&tracking_redirect=&referrer="+encodeURIComponent(document.referrer)+"&sessid2="+ReadCookie('sessid2')+"&product=1_BS1_069,1_BS3_177,1_BS7_294&funnel_step=3&funnel_codename=3&caller_url="+encodeURIComponent(window.location.href); if(typeof add_to_cart !== 'undefined') { mysrc = mysrc+'&add_to_cart='+add_to_cart; } var newScript = document.createElement('script'); newScript.type = 'text/javascript'; newScript.defer = true; newScript.src = mysrc; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(newScript, s); function ReadCookie(name){name += '='; var parts = document.cookie.split(/;\s*/);for (var i = 0; i < parts.length; i++) {var part = parts[i]; if (part.indexOf(name) == 0) return part.substring(name.length)} return '';}</script>
+    <script>
+  function moveCTA(container) {
+   const cta = container.querySelector(".smartplay + .smartplayer-call-action");
+
+   if (!cta) return;
+
+   container.parentNode.insertBefore(cta, container.nextSibling);
+  }
+
+  function insertBeforePlayer(instance, prefix) {
+   if(!instance) return;
+
+   const player = instance.mobileContainer || instance.container;
+
+   const container = document.createElement("div");
+
+   container.id = `${prefix}-${instance.options.id}`
+   container.classList.add(prefix);
+
+   player.parentNode.insertBefore(container, player);
+
+   container.appendChild(player);
+
+   return container;
+  }
+
+  function mountContainers() {
+   const instances = window.smartplayer.instances;
+
+   instances.forEach(instance => {
+    const container = insertBeforePlayer(instance, `player-fake-fs`)
+
+    if(!container) return;
+
+    moveCTA(container)
+
+    let firstClick = instance.resume?.inResume === undefined;
+
+    container.addEventListener("click", () => {
+     console.log(instance.resume)
+     if (!firstClick && container.dataset.fullscreen === "true") instance.pause();
+
+     firstClick = false;
+    });
+   });
+
+   instances.forEach(instance => insertBeforePlayer(instance, `player-auto-height`));
+  }
+
+  function mountStyles() {
+   const styles = document.createElement("style");
+
+   styles.innerHTML = `
+    .player-fake-fs[data-fullscreen='true'] {
+     display: flex !important;
+     align-items: center !important;
+     background-color: #000 !important;
+     height: 100vh !important;
+     width: 100vw !important;
+     cursor: pointer;
+    }
+
+    .player-fake-fs[data-fullscreen='true'] .player-auto-height .smartplayer-mobile-container {
+     max-width: 100% !important;
+    }
+
+    .player-fake-fs[data-fullscreen='false'] .player-auto-height {
+     width: 100% !important;
+    }
+
+    .player-fake-fs[data-fullscreen='false'] {
+     margin-left: 0 !important;
+    }
+
+    .player-auto-height {
+     margin: 0 auto;
+     width: 100%;
+    }
+   `;
+
+   document.head.appendChild(styles);
+  }
+
+  function adjustXPositionFs() {
+   const currentFs = document.querySelectorAll(".player-fake-fs[data-fullscreen='true']");
+
+   currentFs.forEach(container => {
+    container.style.marginLeft = "0";
+
+    const position = container.getBoundingClientRect()
+
+    if(position.left <= 0) return;
+
+    container.style.marginLeft = `-${position.left}px`;
+   });
+  }
+
+  function changeWidthByHeight() {
+   const containers = document.querySelectorAll(".player-auto-height");
+
+   containers.forEach(container => {
+    const video = container.querySelector("video");
+
+    if (!video) return;
+
+    const aspectRatio = video.clientWidth / video.clientHeight;
+
+    const windowHeight = window.innerHeight;
+    const newWidth = windowHeight * aspectRatio;
+
+    const width = (newWidth / window.innerWidth) * 100;
+
+    container.style.width = `${width >= 100 ? 100 : width}%`;
+   });
+  }
+
+  function scrollToFS(container) {
+   const position = container.getBoundingClientRect();
+
+   window.scrollTo({
+    top: position.top + window.scrollY,
+    left: position.left + window.scrollX,
+   });
+  }
+
+  function toggleFs(id, inFullscreen = false) {
+   const container = document.getElementById(`player-fake-fs-${id}`);
+
+   if (!container) return;
+
+   container.dataset.fullscreen = inFullscreen.toString()
+
+   if (inFullscreen) {
+    window.addEventListener("resize", changeWidthByHeight);
+
+    changeWidthByHeight();
+    adjustXPositionFs();
+
+    return scrollToFS(container);
+   }
+
+   window.removeEventListener("resize", changeWidthByHeight);
+  }
+
+  function mountFakeFsEvents() {
+   const instances = window.smartplayer.instances;
+
+   window.addEventListener("resize", adjustXPositionFs);
+
+   instances.forEach(instance => {
+    instance.on("play", () => toggleFs(instance.options.id, true));
+
+    instance.on("pause", () => toggleFs(instance.options.id, false));
+   });
+  }
+
+  function customEvents() {
+   mountContainers();
+   mountStyles();
+   mountFakeFsEvents()
+  }
+
+  function checkPlayerLoaded() {
+   if (window.smartplayer && window.smartplayer.instances) return customEvents()
+
+   return setTimeout(checkPlayerLoaded, 100)
+  }
+
+  window.addEventListener("load", () => checkPlayerLoaded())
+</script>
 
 
-<script type="text/javascript">setTimeout(function () {var i = document.createElement("iframe");i.async = true;i.style="display:none";i.setAttribute("src", "https://buygoods.com/affiliates/go/conversion/iframe/bg?a=7532&t=ca2c0cc672bfd8fff6e5772ea181c0ad&s="+ReadCookie('sessid2'));document.body.appendChild(i);}, 1e3);</script>
+<script>var mysrc = "https://tracking.buygoods.com/track/?a=7532&aff_id=257851&firstcookie=0&tracking_redirect=&referrer="+encodeURIComponent(document.referrer)+"&sessid2="+ReadCookie('sessid2')+"&product=1_BS1_069,1_BS3_177,1_BS7_294&funnel_step=3&funnel_codename=3&caller_url="+encodeURIComponent(window.location.href); if(typeof add_to_cart !== 'undefined') { mysrc = mysrc+'&add_to_cart='+add_to_cart; } var newScript = document.createElement('script'); newScript.type = 'text/javascript'; newScript.defer = true; newScript.src = mysrc; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(newScript, s); function ReadCookie(name){name += '='; var parts = document.cookie.split(/;\s*/);for (var i = 0; i < parts.length; i++) {var part = parts[i]; if (part.indexOf(name) == 0) return part.substring(name.length)} return '';}</script>
+
+<script type="text/javascript">setTimeout(function () {var i = document.createElement("iframe");i.async = true;i.style="display:none";i.setAttribute("src", "https://buygoods.com/affiliates/go/conversion/iframe/bg?a=7532&aff_id=257851&t=ca2c0cc672bfd8fff6e5772ea181c0ad&s="+ReadCookie('sessid2'));document.body.appendChild(i);}, 1e3);</script>
 
 
 
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    var idparametro = urlParams.get('subid');
+    const vparametro = idparametro;
 
+    for (let i = 1; i <= 6; i++) {
+        var elemento = document.getElementById('btnIC' + i);
 
+        if (elemento) {
+            var linkOr = elemento.getAttribute('href');
+            var linkMod = linkOr + (linkOr.includes('?') ? '&' : '?') + 'subid=' + vparametro;
+            elemento.setAttribute('href', linkMod);
+        }
+    }
+</script>
 
 
 </head>
@@ -96,21 +277,22 @@
 <body>
     
 
-
     <section class="video py-xxl-4 py-xl-4 py-2 bg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xxl-12 col-xl-12 text-center">
                     <h1 class="text-uppercase">
-                        This <em>"<span style="color: #00b1f0">Mysterious Shake Trick</span>”</em> Is the Solution to Ending Erectile Dysfunction in a Few Weeks...
+                        This <em>"<span style="color: #00b1f0">Mysterious Ancient Method</span>”</em> Is the Solution to Ending Erectile Dysfunction in a Few Weeks...
                     </h1>
                 </div>
             </div>
             <div class="row justify-content-center mt-xxl-4 mt-xl-4 mt-2">
                 <div class="col-xxl-10 col-xl-10 text-center">
-                    <div class="borda-video">
-                        <script type="text/javascript" id="scr_658bb6458df3be000950fe85">var s=document.createElement("script");s.src="https://scripts.converteai.net/4cd96820-ee82-4b10-afa1-99a2cb36e9d9/players/658bb6458df3be000950fe85/player.js",s.async=!0,document.head.appendChild(s);</script>
+                   <div class="borda-video">
+                        <script type="text/javascript" id="scr_6598d4c2c1c15b000931434a">var s=document.createElement("script");s.src="https://scripts.converteai.net/23001640-550a-4032-a4f9-32c5730b26e8/ab-test/6598d4c2c1c15b000931434a/player.js",s.async=!0,document.head.appendChild(s);</script>
                     </div>
+					
+
                     <h6 class="text-center text-white pt-3 m-0 pb-3">
                         IMPORTANT HEALTH UPDATE May take up to 10 seconds to load. Make
                         sure your sound is on
@@ -126,7 +308,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xxl-6 col-xl-6 text-center">
                             <h1 class="text-uppercase text-white mb-xxl-5 mb-xl-5 text-center separador">
-                                Claim Your Discounted Elite Extreme Below
+                                Claim Your Discounted Boostaro Below
                                 <span style="color: #00b1f0">While Stock Lasts</span>
                             </h1>
                             
@@ -164,7 +346,7 @@
                                             <div class="cta-price-shipping">
                                                 + SMALL SHIPPING FEE
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS1_069&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMS8&aff_id=257851" id="btnIC" target="_blank" class="kit1">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS1_069&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMS8&aff_id=257851" id="btnIC1" target="_blank" class="kit1">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $89</div>
                                             <div class="cta-price-today">Today Only: $69</div>
@@ -203,7 +385,7 @@
                                                     + FREE Shipping
                                                 </div>
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS7_294&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvNi8&aff_id=257851" id="btnIC" target="_blank" class="kit3">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS7_294&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvNi8&aff_id=257851" id="btnIC2" target="_blank" class="kit3">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $534</div>
                                             <div class="cta-price-today">Today Only: $294</div>
@@ -248,7 +430,7 @@
                                                     + FREE Shipping
                                                 </div>
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS3_177&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMy8&aff_id=257851" id="btnIC" target="_blank" class="kit2">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS3_177&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMy8&aff_id=257851" id="btnIC3" target="_blank" class="kit2">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $267</div>
                                             <div class="cta-price-today">Today Only: $177</div>
@@ -290,7 +472,7 @@
                             <div class="garantia-titulo">
                                 REKINDLE YOUR PASSION STARTING TODAY
                             </div>
-                            <h3>Try out the new & improved BOOSTARO formula
+                            <h3>Try out the new & improved Boostaro formula
                             </h3>
                         </div>
                     </div>
@@ -314,13 +496,13 @@
                                 class="img-fluid">
                         </div>
                         <div class="col-xxl-8 col-xl-8">
-                            <div class="garantia-titulo">60-DAY MONEY BACK GUARANTEE 100% SATISFACTION GUARANTEED</div>
-                            <p>BOOSTARO comes with a 100% money back guarantee - 60 full days from your original
+                            <div class="garantia-titulo">365-DAY MONEY BACK GUARANTEE 100% SATISFACTION GUARANTEED</div>
+                            <p>Boostaro comes with a 100% money back guarantee - 365 full days from your original
                                 purchase. If you're not totally and completely satisfied with our product or your
-                                results within the first 60 days simply let us know by calling our toll-free number or
+                                results within the first 365 days simply let us know by calling our toll-free number or
                                 dropping us an email and we'll gladly give you a <strong>full refund within 48</strong>
                                 hours of the product being returned. That's right - simply return the product, even your
-                                empty bottles, anytime within 60 days of your purchase and you'll receive a full,
+                                empty bottles, anytime within 365 days of your purchase and you'll receive a full,
                                 no-questions-asked refund (minus shipping and handling fees).</p>
                         </div>
                     </div>
@@ -332,7 +514,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xxl-12 col-xl-12 text-center">
-                        <div class="item-inicio fw-semibold text-center text-uppercase">BOOSTARO</div>
+                        <div class="item-inicio fw-semibold text-center text-uppercase">Boostaro</div>
                         <h1 class="text-center fw-bold"><span style="font-weight: normal !important;">The #1
                                 Formula to Support Your Sex Life Goals</span></h1>
                         <h3 class="fw-normal text-center separador"><span
@@ -349,7 +531,7 @@
                         <div class="item-inicio fw-semibold text-center text-uppercase" style="color: rgb(53, 53, 53);">
                             TESTIMONIALS
                         </div>
-                        <h1 class="mb-4">Real BOOSTARO <span style="color: #003c99;">Users</span>, Real
+                        <h1 class="mb-4">Real Boostaro <span style="color: #003c99;">Users</span>, Real
                             Life‑Changing <span style="color: #003c99;">Results</span></h1>
                         <div class="depoimentos-box mb-4">
                             <div class="row justify-content-center">
@@ -369,7 +551,7 @@
                                                 class="fas fa-quote-right quote-icon"></i><span
                                                 class="text-xxl-start text-xl-start text-center">I tried everything…
                                                 From Kegel
-                                                exercises to Jelqing, but nothing gave me the kind of boost that BOOSTARO
+                                                exercises to Jelqing, but nothing gave me the kind of boost that Boostaro
                                                 did.<br>If you really want to see what your body can do, I urge you to try
                                                 this
                                                 out.<br>I already bought bottles for all my friends!</span></p>
@@ -401,7 +583,7 @@
                                     <em>
                                         <p class="position-relative text-xxl-start text-xl-start text-center"><i
                                                 class="fas fa-quote-right quote-icon"></i><span
-                                                class="text-xxl-start text-xl-start text-center">Since first taking BOOSTARO
+                                                class="text-xxl-start text-xl-start text-center">Since first taking Boostaro
                                                 Power a few months ago, I feel like it’s transformed me into a different
                                                 person, a stronger and more self-assured one. Now everyone looks up to me
                                                 with respect.<br>
@@ -439,7 +621,7 @@
                                                 class="text-xxl-start text-xl-start text-center">
                                                 I always wanted to give my wife multiple orgasms, but was afraid I wouldn’t
                                                 be able to properly satisfy her with my equipment.<br>
-                                                Then my neighbor, who is an urologist, told me about BOOSTARO and one
+                                                Then my neighbor, who is an urologist, told me about Boostaro and one
                                                 month after starting the ritual I can tell you that my wife has never been
                                                 happier… She just can’t get enough of me every night!
                                             </span></p>
@@ -503,13 +685,13 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header" role="tab"><button class="accordion-button" type="button"
                                         data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-1" aria-expanded="true"
-                                        aria-controls="accordion-2 .item-1">Is BOOSTARO right for Me?</button></h2>
+                                        aria-controls="accordion-2 .item-1">Is Boostaro right for Me?</button></h2>
                                 <div class="accordion-collapse item-1 collapse show" role="tabpanel"
                                     data-bs-parent="#accordion-2" style="">
                                     <div class="accordion-body">
-                                        <p class="mb-0">BOOSTARO has provided amazing sex life support for men in their
+                                        <p class="mb-0">Boostaro has provided amazing sex life support for men in their
                                             30s, 40, 50s and even 70s. Because it was engineered based on the teachings of
-                                            modern science, BOOSTARO formula is gentle yet powerful at the same time,
+                                            modern science, Boostaro formula is gentle yet powerful at the same time,
                                             using only pure plant ingredients and natural minerals. And you can rest assured
                                             knowing it's manufactured in the United States in a state-of-the-art FDA
                                             registered and GMP certified facility.</p>
@@ -520,17 +702,17 @@
                                 <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed"
                                         type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-2"
                                         aria-expanded="false" aria-controls="accordion-2 .item-2">What kind of results can I
-                                        expect from BOOSTARO?</button></h2>
+                                        expect from Boostaro?</button></h2>
                                 <div class="accordion-collapse collapse item-2" role="tabpanel"
                                     data-bs-parent="#accordion-2">
                                     <div class="accordion-body">
-                                        <p class="mb-0">Results with BOOSTARO typically come in stages, depending on
+                                        <p class="mb-0">Results with Boostaro typically come in stages, depending on
                                             how long your course of treatment is. Usually, they take place something like
                                             this:<br>Stage 1. You'll feel much better overall, with increased energy,
                                             clearer thoughts and restful sleep - think back a decade or two ago - that's how
                                             you’ll feel again.<br>Stage 2. You'll start getting firmer muscles and
                                             erections, more energy and stamina.<br>Stage 3. All your improvements solidify
-                                            as long as you take BOOSTARO for at least three months continuously. This
+                                            as long as you take Boostaro for at least three months continuously. This
                                             happens when the inflammation that has plagued your reproductive system is
                                             completely eliminated, allowing you to experience fulfilling sex regardless of
                                             your age.</p>
@@ -547,7 +729,7 @@
                                     <div class="accordion-body">
                                         <p class="mb-0">We're all different and that's why the time it takes to see results
                                             varies. Most people start feeling a difference after the first week. In our
-                                            tests, the best results come when you take BOOSTARO consistently for 3
+                                            tests, the best results come when you take Boostaro consistently for 3
                                             months (or longer) to allow time to cleanse, restore and renew. Therefore, we
                                             strongly recommend you take advantage of our 3 or 6 bottle discount package.</p>
                                     </div>
@@ -557,11 +739,11 @@
                                 <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed"
                                         type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-4"
                                         aria-expanded="false" aria-controls="accordion-2 .item-4">What is the best way to
-                                        take BOOSTARO?</button></h2>
+                                        take Boostaro?</button></h2>
                                 <div class="accordion-collapse collapse item-4" role="tabpanel"
                                     data-bs-parent="#accordion-2">
                                     <div class="accordion-body">
-                                        <p class="mb-0">Simply take BOOSTARO with a glass of water after the first meal
+                                        <p class="mb-0">Simply take Boostaro with a glass of water after the first meal
                                             of the day.</p>
                                     </div>
                                 </div>
@@ -569,14 +751,14 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed"
                                         type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-5"
-                                        aria-expanded="false" aria-controls="accordion-2 .item-5">What if BOOSTARO
+                                        aria-expanded="false" aria-controls="accordion-2 .item-5">What if Boostaro
                                         doesn’t work for me?</button></h2>
                                 <div class="accordion-collapse collapse item-5" role="tabpanel"
                                     data-bs-parent="#accordion-2">
                                     <div class="accordion-body">
                                         <p class="mb-0">I demand you are enthusiastic with your purchase, not just
-                                            satisfied. And you won't know until you try it! So you can use BOOSTARO for
-                                            60 days, with my "No Questions Asked 100% Money Back Guarantee". The only way to
+                                            satisfied. And you won't know until you try it! So you can use Boostaro for
+                                            365 days, with my "No Questions Asked 100% Money Back Guarantee". The only way to
                                             be totally convinced is to try this amazing formula and experience the results
                                             for yourself.</p>
                                     </div>
@@ -585,7 +767,7 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed"
                                         type="button" data-bs-toggle="collapse" data-bs-target="#accordion-2 .item-6"
-                                        aria-expanded="false" aria-controls="accordion-2 .item-6">Where can I buy BOOSTARO and how quickly can I get it?</button></h2>
+                                        aria-expanded="false" aria-controls="accordion-2 .item-6">Where can I buy Boostaro and how quickly can I get it?</button></h2>
                                 <div class="accordion-collapse collapse item-6" role="tabpanel"
                                     data-bs-parent="#accordion-2">
                                     <div class="accordion-body">
@@ -607,7 +789,7 @@
                                 <div class="accordion-collapse collapse item-7" role="tabpanel"
                                     data-bs-parent="#accordion-2">
                                     <div class="accordion-body">
-                                        <p class="mb-0">To purchase BOOSTARO you are only asked for a one time payment
+                                        <p class="mb-0">To purchase Boostaro you are only asked for a one time payment
                                             right on this page. There are no other future payments needed to benefit from
                                             this product. This website is highly secure. We use industry-leading technology
                                             (such as SSLs) to keep your information safe and private.</p>
@@ -642,7 +824,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xxl-6 col-xl-6 text-center">
                             <h1 class="text-uppercase text-white mb-xxl-5 mb-xl-5 text-center separador">
-                                Claim Your Discounted Elite Extreme Below
+                                Claim Your Discounted Boostaro Below
                                 <span style="color: #00b1f0">While Stock Lasts</span>
                             </h1>
                             
@@ -680,7 +862,7 @@
                                             <div class="cta-price-shipping">
                                                 + SMALL SHIPPING FEE
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS1_069&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMS8&aff_id=257851" id="btnIC" target="_blank" class="kit1">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS1_069&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMS8&aff_id=257851" id="btnIC4" target="_blank" class="kit1">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $89</div>
                                             <div class="cta-price-today">Today Only: $69</div>
@@ -719,7 +901,7 @@
                                                     + FREE Shipping
                                                 </div>
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS7_294&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvNi8&aff_id=257851" id="btnIC" target="_blank" class="kit3">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS7_294&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvNi8&aff_id=257851" id="btnIC5" target="_blank" class="kit3">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $534</div>
                                             <div class="cta-price-today">Today Only: $294</div>
@@ -764,7 +946,7 @@
                                                     + FREE Shipping
                                                 </div>
                                             </div>
-                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS3_177&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMy8&aff_id=257851" id="btnIC" target="_blank" class="kit2">
+                                            <a href="https://buygoods.com/secure/checkout.html?account_id=7532&product_codename=1_BS3_177&redirect=aHR0cHM6Ly9nb2Jvb3N0YXJvLmNvbS9vcHRpb25zLWJnLzEvMy8&aff_id=257851" id="btnIC6" target="_blank" class="kit2">
                                             <button class="btn-cart">add to cart</button></a>
                                             <div class="cta-price-regular">Regular price: $267</div>
                                             <div class="cta-price-today">Today Only: $177</div>
@@ -914,7 +1096,7 @@
                         <li class="list-inline-item"><a class="link-light" href="" target="_blank">Report Spam</a></li>
                     </ul>
                     
-                        <div class="text-center mt-4"><small style="color: #666;">©Research 2023 All Rights Reserved.</small></div>
+                        <div class="text-center mt-4"><small style="color: #666;">© Boostaro Research 2023 All Rights Reserved.</small></div>
                 </div>
             </div>
         </div>
@@ -950,8 +1132,10 @@
     <script src="./assets/js/bootstrap.min.js"></script>
    <script src="./assets/js/script.min.js"></script>
     <style>.esconder { display: none }</style>
+	
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function() {
+window.localStorage.setItem("ac_registro", "1");
 var SECONDS_TO_DISPLAY = 2198;
 var CLASS_TO_DISPLAY = ".esconder";
 /* DAQUI PARA BAIXO NAO PRECISA ALTERAR */
@@ -993,126 +1177,16 @@ setTimeout(function () { showHiddenElements(); }, 100);
 } else {
 startWatchVideoProgress()
 }
+if (window.localStorage.getItem("ac_registro")){
+showHiddenElements();
+}
+
 });
+
 </script>
 
 
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    function getCookie(cookieName) {
-        let cookies = document.cookie.split("; ");
-        for (let i = 0; i < cookies.length; i++) {
-            let [name, value] = cookies[i].split("=");
-            if (name.trim() === cookieName) {
-                return value;
-            }
-        }
-        return null;
-    }
-
-    setTimeout(() => {
-        var urlParams = new URLSearchParams(window.location.search);
-        var padsParams = {
-            xp: urlParams.get("xp"),
-            fbclid: urlParams.get("fbclid"),
-            fbp: getCookie('_fbp'),
-            fbc: getCookie('_fbc')
-        };
-
-        const offerLinks = document.querySelectorAll(".kit1, .kit3, .kit2");
-        const prices = {
-            'kit1': '69.00',
-            'kit2': '177.00',
-            'kit3': '294.00'
-        };
-
-        offerLinks.forEach(function(link) {
-            link.addEventListener("click", function() {
-                for (const className in prices) {
-                    if (this.classList.contains(className)) {
-                        const price = prices[className];
-                        var clkParams = Object.assign({}, padsParams);
-                        // restante do seu código...
-                        break;
-                    }
-                }
-            });
-        });
-    }, 2000);
-});
-  </script>
-  
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var alreadyVisitedKey = "alreadyVisited";
-        
-        // Função para definir um cookie
-        function setCookie(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-        }
-
-        // Função para obter o valor de um cookie
-        function getCookie(cname) {
-            const name = cname + "=";
-            const decodedCookie = decodeURIComponent(document.cookie);
-            const cookieArray = decodedCookie.split(';');
-            for (let i = 0; i < cookieArray.length; i++) {
-                let cookie = cookieArray[i];
-                while (cookie.charAt(0) == ' ') {
-                    cookie = cookie.substring(1);
-                }
-                if (cookie.indexOf(name) == 0) {
-                    return cookie.substring(name.length, cookie.length);
-                }
-            }
-            return "";
-        }
-
-        var alreadyVisited = getCookie(alreadyVisitedKey);
-
-        // Exibe todos os elementos se já foi visitado anteriormente
-        if (alreadyVisited === "true") {
-            var elsHiddenList = document.querySelectorAll(".esconder");
-            elsHiddenList.forEach((e) => e.style.display = "block");
-        } else {
-            // Define o cookie indicando que o site foi visitado
-            setCookie(alreadyVisitedKey, "true", 30); // O cookie expira em 30 dias (você pode ajustar conforme necessário)
-        }
-    });
-</script>
-
-    <script>
-        // O código JavaScript aqui
-        const urlParams = new URLSearchParams(window.location.search);
-        const subidValue = urlParams.get('subid');
-
-        const links = document.querySelectorAll('a');
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && !href.includes('subid=')) {
-                const separator = href.includes('?') ? '&' : '?';
-                link.setAttribute('href', `${href}${separator}subid=${subidValue}`);
-            }
-        });
-    </script>
-
-    <script>
-    // Substitua 'SEU_LINK_DE_AFILIADO' pelo seu link real de afiliado
-const linkAfiliado = 'https://goboostaro.com/video/bg?aff_id=257851';
-
-// Cria um elemento de imagem oculto para carregar o link de afiliado
-const imagem = new Image();
-imagem.src = linkAfiliado;
-imagem.style.display = 'none';
-
-// Adiciona a imagem ao corpo da página
-document.body.appendChild(imagem);
-</script>
-
+ 
 </body>
 
 </html>
